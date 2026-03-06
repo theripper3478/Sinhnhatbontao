@@ -16,17 +16,22 @@
         }
         .text-container {
             position: absolute; text-align: center; width: 90%;
-            filter: drop-shadow(0 0 15px rgba(255,255,255,0.5));
+            /* Bỏ background, chỉ dùng shadow để chữ rõ */
+            filter: drop-shadow(0 0 20px rgba(0,0,0,1)) drop-shadow(0 0 10px rgba(0,0,0,1));
         }
         .title {
-            font-family: 'Cinzel', serif; font-size: 2.5rem; opacity: 0;
+            font-family: 'Cinzel', serif; font-size: 2.8rem; opacity: 0;
             transform: scale(0.8) translateY(30px); transition: all 3s cubic-bezier(0.19, 1, 0.22, 1);
             background: linear-gradient(180deg, #fff, #ffd700);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            /* Đổ bóng chữ để không bị lẫn vào sao */
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
         }
         .message {
-            font-size: 1.2rem; line-height: 1.8; margin-top: 20px; opacity: 0;
+            font-size: 1.3rem; line-height: 1.8; margin-top: 20px; opacity: 0;
             transition: all 4s ease; color: #ffb6c1;
+            /* Đổ bóng chữ để không bị lẫn vào sao */
+            text-shadow: 2px 2px 8px rgba(0,0,0,1);
         }
         .active .title, .active .message { opacity: 1; transform: scale(1) translateY(0); }
         
@@ -35,6 +40,7 @@
             background: linear-gradient(45deg, #ff0080, #ff8c00, #40e0d0);
             background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             animation: shine 3s linear infinite;
+            filter: drop-shadow(0 0 20px rgba(255,255,255,0.3));
         }
         @keyframes shine { to { background-position: 200% center; } }
         
@@ -54,7 +60,7 @@
         <div class="message">Trong sự tĩnh lặng tuyệt đối... một thông điệp được viết bằng ánh sáng.</div>
     </div>
     <div id="scene-1" class="text-container">
-        <div class="title" style="background: linear-gradient(to right, #ff9a9e, #fad0c4);">TRÁI TIM THIÊN HÀ</div>
+        <div class="title" style="background: linear-gradient(to right, #ff9a9e, #fad0c4); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">TRÁI TIM THIÊN HÀ</div>
         <div class="message">Nơi hàng tỷ ngôi sao hội tụ để tôn vinh những tâm hồn tuyệt đẹp.</div>
     </div>
     <div id="scene-2" class="text-container">
@@ -87,7 +93,6 @@ function init() {
     document.body.appendChild(renderer.domElement);
     clock = new THREE.Clock();
 
-    // Hệ thống hạt chính
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(COUNT * 3);
     const colors = new Float32Array(COUNT * 3);
@@ -104,7 +109,6 @@ function init() {
     starPoints = new THREE.Points(geometry, material);
     scene.add(starPoints);
 
-    // Tạo Trái Đất (để dành cho cảnh cuối)
     const earthGeo = new THREE.SphereGeometry(50, 64, 64);
     const earthMat = new THREE.MeshPhongMaterial({
         color: 0x2233ff, emissive: 0x112244, shininess: 50, wireframe: true
@@ -156,7 +160,6 @@ function morphToHeart() {
 function show83() {
     document.getElementById('big-83').style.opacity = "1";
     const pos = starPoints.geometry.attributes.position.array;
-    // Hiệu ứng pháo hoa nổ tung
     for(let i=0; i<COUNT; i++) {
         new TWEEN.Tween(pos).to({
             [i*3]: (Math.random()-0.5)*500,
