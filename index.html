@@ -54,9 +54,15 @@
 </head>
 <body onclick="nextScene()">
 
-<audio autoplay loop>
+<audio id="bgm" loop>
   <source src="nhac.mp3" type="audio/mpeg">
 </audio>
+
+<script>
+document.body.addEventListener("click", function () {
+  document.getElementById("bgm").play();
+});
+</script>
 
 <div id="overlay">
     <div id="scene-0" class="text-container active">
